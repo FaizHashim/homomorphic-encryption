@@ -12,6 +12,15 @@ def int_to_bytes(i):
 
     return t
 
+def mod_exp(b, e, m):
+    c = (b % m)
+    e1 = 1
+    while (e1 < e):
+        c = (c * b) % m
+        e1 = e1 + 1
+
+    return c
+
 class ElGamal:
 
     def __init__(self, g, p) -> None:
@@ -20,7 +29,8 @@ class ElGamal:
         
         self.b = random.randint(1, self.p - 1)
         
-        self.h = (self.g**self.b) % self.p
+        # self.h = (self.g**self.b) % self.p
+        self.h = mod_exp(self.g, self.b, self.p)
 
 
     def get_public_key(self):
@@ -36,9 +46,11 @@ class ElGamal:
         
         a = random.randint(1, self.p - 1)
         
-        s = (self.h ** a)  % self.p
+        # s = (self.h ** a)  % self.p
+        s = mod_exp(self.h, a, self.p)
         
-        c1 = (self.g ** a) % self.p
+        # c1 = (self.g ** a) % self.p
+        c1 = mod_exp(self.g, a, self.p)
         c2 = (m * s) % self.p
 
         c1 = int_to_bytes(c1)
@@ -50,7 +62,8 @@ class ElGamal:
         c1 = bytes_to_int(ciphertext[0])
         c2 = bytes_to_int(ciphertext[1])
 
-        s = (c1 ** self.b) % self.p
+        # s = (c1 ** self.b) % self.p
+        s = mod_exp(c1, self.b, self.p)
 
         s_inv = inverse_mod(s, self.p)
 
