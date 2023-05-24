@@ -14,14 +14,6 @@ def int_to_bytes(i):
 
     return t
 
-def mod_exp(b, e, m):
-    c = (b % m)
-    e1 = 1
-    while (e1 < e):
-        c = (c * b) % m
-        e1 = e1 + 1
-
-    return c
 
 class Paillier:
 
@@ -59,7 +51,7 @@ class Paillier:
 
                 # print(self.g)
 
-                self.mu = inverse_mod(L( mod_exp(self.g, self.lamd, (self.n**2) )) , self.n)
+                self.mu = inverse_mod(L( pow(self.g, self.lamd, (self.n**2) )) , self.n)
                 
                 # print(self.mu)
                 break
@@ -71,8 +63,8 @@ class Paillier:
         return (self.n, self.g)
 
     def encrypt(self, plaintext):
-        # m = bytes_to_int(plaintext)
-        m = plaintext
+        m = bytes_to_int(plaintext)
+        # m = plaintext
 
         if m >= self.n:
             print("Error")
@@ -83,19 +75,19 @@ class Paillier:
         # print('n:',self.n)
 
         # c = (self.g ** m * r ** self.n) % self.n ** 2
-        c = mod_exp(self.g, m, self.n**2) * mod_exp(r, self.n, self.n**2)  % self.n**2
-        # c = int_to_bytes(c)
+        c = pow(self.g, m, self.n**2) * pow(r, self.n, self.n**2)  % self.n**2
+        c = int_to_bytes(c)
         return c
 
 
     def decrypt(self, ciphertext):
         
-        c = ciphertext
-        # c = bytes_to_int(ciphertext)
+        # c = ciphertext
+        c = bytes_to_int(ciphertext)
         
         L = lambda x: (x - 1) / self.n
         
-        m = int(( L(mod_exp(c, self.lamd, self.n**2)) * self.mu ) % self.n)
+        m = int(( L(pow(c, self.lamd, self.n**2)) * self.mu ) % self.n)
     
-        # m = int_to_bytes(int(m))
+        m = int_to_bytes(int(m))
         return m
