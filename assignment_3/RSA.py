@@ -49,7 +49,12 @@ class RSA:
         return c
 
     def decrypt(self, ciphertext):
+
         c = bytes_to_int(ciphertext)
+
+        if c > self.n:
+            raise ValueError
+
         m = pow(c, self.d, self.n)
 
         m = int_to_bytes(m)

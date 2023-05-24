@@ -33,7 +33,6 @@ class ElGamal:
         m = bytes_to_int(plaintext)
 
         if m >= self.p:
-            print("Error")
             raise ValueError
         
         a = random.randint(1, self.p - 1)

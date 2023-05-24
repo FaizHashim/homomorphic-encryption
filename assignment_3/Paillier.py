@@ -67,7 +67,6 @@ class Paillier:
         # m = plaintext
 
         if m >= self.n:
-            print("Error")
             raise ValueError        
 
         r = randint(1, self.n - 1)
