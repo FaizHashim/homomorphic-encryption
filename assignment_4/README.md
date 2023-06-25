@@ -20,7 +20,7 @@ docker docker build -t cloud_server .
 Finally, we can run the cloud server by creating a container that runs the Python file, `cs.py`. 
 
 ```
-docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=factors-db,target=/app/factors_data/ --mount type=bind,src=/temp/data,target=/app/query_data cloud_server
+docker run -dp 127.0.0.1:3000:3000 --mount type=volume,src=factors-db,target=/app/factors_data/ --mount type=bind,src=/tmp/data,target=/app/query_data cloud_server
 ```
 
 This command creates a container, and mounts both the volumes (the named volume and the binded volume) to it. Now, we can move on to running the data owner file and the query user file.
